@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # 8-uppercase.py
-
+#edgah ogeto gwaro
 
 
 def uppercase(str):
