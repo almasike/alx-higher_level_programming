@@ -1,50 +1,61 @@
 #!/usr/bin/python3
 """
-This module is composed by a function that divides the numbers of a matrix
+  2-matrix_divided module.
+  Matrix division functions
+  Functions:
+    matrix_divided(matrix, div)
 """
 
 
 def matrix_divided(matrix, div):
-    """ Function that divides the integer/float numbers of a matrix
-    Args:
-        matrix: list of a lists of integers/floats
-        div: number which divides the matrix
-    Returns:
-        A new matrix with the result of the division
-    Raises:
-        TypeError: If the elements of the matrix aren't lists
-                   If the elemetns of the lists aren't integers/floats
-                   If div is not an integer/float number
-                   If the lists of the matrix don't have the same size
-        ZeroDivisionError: If div is zero
     """
+      Divides all the elements of a matrix
+      by a divisor, result is rounded by two
+      decimal places.
 
-    if not type(div) in (int, float):
-        raise TypeError("div must be a number")
+      Args:
+        matrix: list of lists containing dividends
+        div: divisor
+      Raises:
+        TypeError: matrix must be a matrix (list of lists) of integers/floats
+        TypeError: Each row of the matrix must have the same size
+        TypeError: div must be a number
+        ZeroDivisionError: division by zero
+      Return:
+        Addition type int
+    """
+    tperror = 0
+    result = []
+    indX = 0
+    size = 0
 
-    if div == 0:
-        raise ZeroDivisionError("division by zero")
-
-    msg_type = "matrix must be a matrix (list of lists) of integers/floats"
-
-    if not matrix or not isinstance(matrix, list):
-        raise TypeError(msg_type)
-
-    len_e = 0
-    msg_size = "Each row of the matrix must have the same size"
-
-    for elems in matrix:
-        if not elems or not isinstance(elems, list):
-            raise TypeError(msg_type)
-
-        if len_e != 0 and len(elems) != len_e:
-            raise TypeError(msg_size)
-
-        for num in elems:
-            if not type(num) in (int, float):
-                raise TypeError(msg_type)
-
-        len_e = len(elems)
-
-    m = list(map(lambda x: list(map(lambda y: round(y / div, 2), x)), matrix))
-    return (m)
+    if type(matrix) is list:
+        if type(div) not in {int, float}:
+            raise TypeError("div must be a number")
+        if div == 0:
+            raise ZeroDivisionError("division by zero")
+        for X in matrix:
+            if size == 0:
+                size = len(X)
+            elif size is not len(X):
+                raise TypeError("Each row of the matrix " +
+                                "must have the same size")
+            if tperror == 1:
+                break
+            if type(X) is list:
+                result.append([])
+                for num in X:
+                    if type(num) in (int, float):
+                        result[indX].append(round(num / div, 2))
+                    else:
+                        tperror = 1
+                        break
+                indX += 1
+            else:
+                tperror = 1
+    else:
+        tperror = 1
+    if tperror == 1 or len(matrix) == 0:
+        raise TypeError("matrix must be a matrix" +
+                        " (list of lists) of integers/floats")
+    return (result)
